@@ -69,27 +69,26 @@ class Api::TmsDataService
     if data_course["subjects"]
       data_course["subjects"].each do |data_subject|
         subject = Subject.find_or_create_by name: data_subject["subject_name"]
-        course_subject = CourseSubject.find_or_create_by course_id: course_id,
-          subject_id: subject.id
-        course_subject.update_attributes start_date: data_subject["start_date"],
-          end_date: data_subject["end_date"]
+
         user_course_subject = UserCourseSubject.find_or_create_by user_id:
-          @current_user.id, course_subject_id: course_subject.id
-        user_course_subject.update_attributes status: data_subject["status"]
-        synchronize_user_task data_subject, user_course_subject.id, subject.id
+          @current_user.id, course_id: course_id, subject_id: subject.id,
+            start_date: data_subject["start_date"],
+            end_date: data_subject["end_date"],
+            status: data_subject["status"]
+
+        synchronize_user_task data_subject, subject.id
       end
     end
   end
 
-  def synchronize_user_task data_subject, user_course_subject_id, subject_id
+  def synchronize_user_task data_subject, subject_id
     if data_subject["tasks"]
       data_subject["tasks"].each do |data_task|
         task_type = data_task.keys[0]
         task = Task.find_or_create_by name: data_task[task_type]["name"],
           task_type: task_type, subject_id: subject_id
         task.update_attributes description: data_task[task_type]["content"]
-        user_task = UserTask.find_or_create_by user_course_subject_id:
-          user_course_subject_id, task_id: task.id
+        user_task = UserTask.find_or_create_by user_id: @current_user.id, task_id: task.id
         user_task.update_attributes status: data_task[task_type]["status"]
       end
     end

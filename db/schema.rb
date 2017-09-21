@@ -92,15 +92,6 @@ ActiveRecord::Schema.define(version: 20170914040644) do
     t.index ["website"], name: "index_companies_on_website", using: :btree
   end
 
-  create_table "course_subjects", force: :cascade do |t|
-    t.integer  "course_id"
-    t.integer  "subject_id"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "courses", force: :cascade do |t|
     t.integer  "programming_language_id"
     t.string   "name"
@@ -333,10 +324,13 @@ ActiveRecord::Schema.define(version: 20170914040644) do
 
   create_table "user_course_subjects", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "course_subject_id"
+    t.integer  "course_id"
+    t.integer  "subject_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.integer  "status"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_courses", force: :cascade do |t|
@@ -380,13 +374,13 @@ ActiveRecord::Schema.define(version: 20170914040644) do
   end
 
   create_table "user_tasks", force: :cascade do |t|
-    t.integer  "user_course_subject_id"
+    t.integer  "user_id"
     t.integer  "task_id"
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "status"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
