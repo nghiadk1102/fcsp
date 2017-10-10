@@ -27,3 +27,6 @@ en:
       no_data: "no data"
       start_date: "Start Date"
       status: "Status"
+  tms_synchronize:
+    auto_synchronize_success: "Auto refresh data"
+    auto_synchronize_error: "Error auto refresh"

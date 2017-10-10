@@ -583,6 +583,7 @@ en:
       refresh_now: "Refresh data now! Click here..."
       sync_data: "Synchronize Data"
       want_to_sync: "Do you want to auto synchronize data?"
+      save: "Save"
   likes:
     like_user_post:
       orthers_like: "%{count} orthers"

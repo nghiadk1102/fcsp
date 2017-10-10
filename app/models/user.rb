@@ -52,6 +52,7 @@ class User < ApplicationRecord
   validates :name, presence: true,
     length: {maximum: Settings.user.max_length_name}
   validates :email, presence: true
+  validates :auto_synchronize, inclusion: { in: [true, false]}
 
   scope :newest, ->{order created_at: :desc}
 
@@ -66,6 +67,8 @@ class User < ApplicationRecord
   scope :recommend, ->job_id do
     select("users.id, users.name, users.avatar").limit Settings.recommend.user_limit
   end
+
+  scope :want_auto_sync, ->{where auto_synchronize: true}
 
   class << self
     def import file

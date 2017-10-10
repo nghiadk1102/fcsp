@@ -27,3 +27,7 @@ jp:
       no_data: "データなし"
       start_date: "開始日"
       status: "コース"
+  tms_synchronize:
+    auto_synchronize_success: "データの自動更新"
+    auto_synchronize_error: "エラー自動リフレッシュ"
+

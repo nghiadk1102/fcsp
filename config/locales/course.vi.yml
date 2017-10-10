@@ -27,3 +27,6 @@ vi:
       no_data: "không có dữ liệu"
       start_date: "Ngày bắt đầu"
       status: "Trạng thái"
+  tms_synchronize:
+    auto_synchronize_success: "Cập nhật dữ liệu thành công"
+    auto_synchronize_error: "lỗi khi cập nhật dữ liệu"
