@@ -52,9 +52,10 @@ class User < ApplicationRecord
   validates :name, presence: true,
     length: {maximum: Settings.user.max_length_name}
   validates :email, presence: true
+  validates :auto_synchronize, inclusion: { in: [true, false]}
 
   scope :newest, ->{order created_at: :desc}
-
+  scope :want_auto_sync, ->{where auto_synchronize: true}
   scope :not_in_object, ->object do
     where("id NOT IN (?)", object.users.pluck(:user_id)) if object.users.any?
   end

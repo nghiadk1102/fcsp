@@ -39,6 +39,15 @@ class UsersController < ApplicationController
   def new
   end
 
+  def update
+    if current_user.update_attributes auto_synchronize: params[:auto_synchronize]
+      flash[:success] = t ".auto_synchronize_success"
+    else
+      flash[:error] = t ".auto_synchronize_error"
+    end
+    redirect_to current_user
+  end
+
   private
 
   def find_user
