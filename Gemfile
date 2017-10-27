@@ -47,7 +47,6 @@ gem "pg"
 gem "public_activity"
 gem "puma", "~> 3.0"
 gem "rails", "~> 5.0.2"
-gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
 gem "rails-i18n"
 gem "ransack"
 gem "redcarpet"
@@ -56,12 +55,14 @@ gem "sass-rails", "~> 5.0"
 gem "searchkick"
 gem "simple_form"
 gem "social-share-button", "0.8.4"
+gem "rails-assets-sweetalert2", source: "https://rails-assets.org"
 gem "sweet-alert2-rails"
 gem "therubyracer"
 gem "turbolinks", "~> 5"
 gem "uglifier", ">= 1.3.0"
 gem "valid_url"
 gem "validates_timeliness"
+
 
 group :development, :test do
   gem "byebug", platform: :mri

@@ -15,4 +15,3 @@
 //= require jqvmap/maps/jquery.vmap.usa
 //= require_tree ../../../../vendor/assets/javascripts/js/gentelella
 //= require flash_message
-//= require common

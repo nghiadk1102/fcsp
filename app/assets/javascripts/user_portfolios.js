@@ -21,20 +21,20 @@ $(document).ready(function() {
     format: 'dd-mm-yyyy'
   });
 
-  $('.hover-button-portfolio').hide();
-  $('.hover-portfolio').mouseenter(function(){
-    $(this).find('.hover-button-portfolio').show();
-  }).mouseleave(function() {
-    $(this).find('.hover-button-portfolio').hide();
-  });
+  // $('.hover-button-portfolio').hide();
+  // $('.hover-portfolio').mouseenter(function(){
+  //   $(this).find('.hover-button-portfolio').show();
+  // }).mouseleave(function() {
+  //   $(this).find('.hover-button-portfolio').hide();
+  // });
 
-  $('.delete-portfolio').on('click', function() {
-    var id = this.dataset.id;
-    var status_alert = I18n.t('javascripts.user_portfolio_alert');
-    if(confirm(status_alert)) {
-      delete_portfolio(id);
-    }
-  });
+  // $('.delete-portfolio').on('click', function() {
+  //   var id = this.dataset.id;
+  //   var status_alert = I18n.t('javascripts.user_portfolio_alert');
+  //   if(confirm(status_alert)) {
+  //     delete_portfolio(id);
+  //   }
+  // });
 
   var onAddFile;
   onAddFile = function(event) {
