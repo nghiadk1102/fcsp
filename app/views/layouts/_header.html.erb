@@ -1,33 +1,6 @@
 <nav class="navbar main-menu navbar-default">
   <div class="menu-content">
     <div class="navbar-header">
-      <span class="notification-header">
-        <% if user_signed_in? %>
-          <%= render "jobs/message" %>
-        <% end %>
-        <span class="dropdown profile">
-          <% if user_signed_in? %>
-            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-              <%= load_user_avatar current_user if current_user %>
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu profile-box">
-              <li><%= link_to t(".profile"), user_path(current_user) %></li>
-              <li>
-                <%= link_to t(".sign_out"), destroy_user_session_path,
-                  method: :delete %>
-              </li>
-            </ul>
-          <% else %>
-            <button class="btn btn-login dropdown-toggle" type="button" data-toggle="dropdown">
-              <b><%= t ".login" %></b>
-            </button>
-            <ul class="dropdown-menu form-login">
-              <%= render "devise/sessions/form_login_2" %>
-            </ul>
-          <% end %>
-        </span>
-      </span>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
         data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only"></span>
@@ -112,7 +85,7 @@
               <b><%= t ".login" %></b>
             </button>
             <ul class="dropdown-menu form-login">
-              <%= render "devise/sessions/form_login_2" %>
+              <%= render "devise/sessions/form_login" %>
             </ul>
           <% end %>
         </span>

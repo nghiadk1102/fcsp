@@ -62,12 +62,6 @@ en:
     sessions:
       already_signed_out: "Signed out successfully."
       form_login:
-        facebook: "Facebook"
-        forgot_password: "Forgot your password?"
-        login: "Login"
-        or_login_with: "Or login with"
-        twitter: "Twitter"
-      form_login_2:
         email_address: "email address"
         facebook: "Facebook"
         forgot_password: "Forgot your password?"
