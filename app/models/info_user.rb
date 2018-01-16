@@ -10,11 +10,4 @@ class InfoUser < ApplicationRecord
   validates :introduction, length: {maximum: Settings.info_users.max_length_introduce}
   validates :ambition, length: {maximum: Settings.info_users.max_length_ambition}
   validates :quote, length: {maximum: Settings.info_users.max_length_quote}
-
-  class << self
-    def pluck_params_type id, type
-      return if id.blank? || type.blank?
-      find_by(id: id).try type
-    end
-  end
 end

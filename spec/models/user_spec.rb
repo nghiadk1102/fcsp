@@ -223,31 +223,14 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context "testing scope user_all" do
+    context "testing scope other_user" do
       it "matching sucessfully" do
-        expect(User.user_all @user1.id).to eq [@user2, @user3]
+        expect(User.other_user @user1.id).to eq [@user2, @user3]
       end
 
       it "non-matching sucessfully" do
-        expect(User.user_all @user1.id).not_to include @user1
+        expect(User.other_user @user1.id).not_to include @user1
       end
-    end
-  end
-
-  describe "#pluck_params_type" do
-    let!(:type){@type.sample}
-    let!(:user){@users.sample}
-
-    context "when id is empty" do
-      it{expect(User.pluck_params_type nil, type).to eq nil}
-    end
-
-    context "when type is empty" do
-      it{expect(User.pluck_params_type user.id, "").to eq nil}
-    end
-
-    context "when type and id is valid" do
-      it{expect(User.pluck_params_type user.id, type).to eq user.try type}
     end
   end
 

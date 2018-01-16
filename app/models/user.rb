@@ -7,26 +7,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  has_many :user_groups, dependent: :destroy
-  has_many :employer_groups, class_name: Group.name, through: :user_groups,
-    source: :group
   has_many :images, as: :imageable, dependent: :destroy
-  has_many :candidates, dependent: :destroy
-  has_many :jobs, through: :candidates
-  has_many :created_jobs, class_name: Job.name, dependent: :destroy
-  has_many :bookmarks, dependent: :destroy
-  has_many :bookmarked_jobs, class_name: Job.name, through: :bookmarks,
-    source: :job
   has_many :skill_users, dependent: :destroy
   has_many :skills, through: :skill_users
   has_many :user_schools, dependent: :destroy
   has_many :schools, through: :user_schools
-  has_many :shares, class_name: ShareJob.name, dependent: :destroy
-  has_many :share_jobs, source: :job
   has_many :user_languages, dependent: :destroy
   has_many :languages, through: :user_languages
-  has_one :company, foreign_key: :creator_id
-  has_many :share_posts, class_name: ShareJob.name, dependent: :destroy
   has_many :user_course_subjects
   has_many :user_courses
   has_many :subjects, through: :user_course_subjects
@@ -56,93 +43,15 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: {maximum: Settings.user.max_length_name}
   validates :email, presence: true
-  validates :auto_synchronize, inclusion: {in: [true, false]}
-
-  scope :newest, ->{order created_at: :desc}
 
   scope :recommend, (lambda do
     select("users.id, users.name, users.avatar_id, users.email")
       .limit Settings.recommend.user_limit
   end)
 
-  scope :recommend_job, (lambda do |job_id|
-    select("users.id, users.name, users.avatar_id, users.email").includes(:avatar)
-      .limit Settings.recommend.user_limit
-  end)
-
-  scope :user_all, (lambda do |id|
+  scope :other_user, (lambda do |id|
     select("id, name, email").where("id != ?", id)
   end)
-
-  scope :filter_trainee, (lambda do |list_filter, sort_by, user_type, data_table|
-    list_filter.map!{|element| element == "" ? nil : element}
-    date_filter = ["birthday"]
-
-    if date_filter.include? user_type
-      list_filter = InfoUser.all.pluck(user_type).uniq.reject{
-        |element| list_filter.exclude? (element.to_date.to_s if element)}
-    end
-
-    where("#{data_table}.#{user_type}": list_filter).
-      order "#{data_table}.#{user_type} #{sort_by}"
-  end)
-
-  scope :filter_trainee_course, (lambda do |course|
-    where "courses.id": course
-  end)
-
-  scope :filter_trainee_programming_language, (lambda do |language|
-    where "programming_languages.id": language
-  end)
-
-  scope :want_auto_sync, ->{where auto_synchronize: true}
-
-  class << self
-    def import file
-      (2..spreadsheet(file).last_row).each do |row|
-        value = Hash[[header_of_file(file),
-          spreadsheet(file).row(row)].transpose]
-        user = find_by(id: value["id"]) || new
-        user.attributes = value.to_hash.slice *value.to_hash.keys
-        unless user.save
-          raise "#{I18n.t('education.import_user.row_error')} #{row}: \
-            #{user.errors.full_messages}"
-        end
-      end
-    end
-
-    def open_spreadsheet file
-      case File.extname file.original_filename
-      when ".csv" then Roo::CSV.new file.path
-      when ".xls" then Roo::Excel.new file.path
-      when ".xlsx" then Roo::Excelx.new file.path
-      else raise "#{I18n.t('education.import_user.unknow_format')}: \
-        #{file.original_filename}"
-      end
-    end
-
-    def spreadsheet file
-      open_spreadsheet file
-    end
-
-    def header_of_file file
-      spreadsheet(file).row 1
-    end
-
-    def from_omniauth auth
-      User.find_or_initialize_by(email: auth.info.email).tap do |user|
-        user.name = auth.info.name
-        user.provider = auth.provider
-        user.password = User.generate_unique_secure_token if user.new_record?
-        user.save
-      end
-    end
-
-    def pluck_params_type id, type
-      return if id.blank? || type.blank?
-      find_by(id: id).try type
-    end
-  end
 
   def is_user? user
     user == self

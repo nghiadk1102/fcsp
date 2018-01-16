@@ -62,23 +62,4 @@ RSpec.describe InfoUser, type: :model do
         .with %i(single married complicated)
     end
   end
-
-  describe "pluck_params_type" do
-    let!(:type){@type.sample}
-
-    context "when id is empty" do
-      it{expect(InfoUser.pluck_params_type nil, type).to eq nil}
-    end
-
-    context "when type is empty" do
-      it{expect(InfoUser.pluck_params_type @info_user.id, "").to eq nil}
-    end
-
-    context "when id and type is valid" do
-      it do
-        expect(InfoUser.pluck_params_type @info_user.id, type)
-          .to eq @info_user.try type
-      end
-    end
-  end
 end
